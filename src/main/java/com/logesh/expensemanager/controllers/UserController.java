@@ -20,4 +20,9 @@ public class UserController {
     public User registerUser(@RequestBody User user) {
         return service.save(user);
     }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        return service.authenticate(user);
+    }
 }
