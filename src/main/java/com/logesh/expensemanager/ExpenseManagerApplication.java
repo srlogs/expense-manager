@@ -1,5 +1,6 @@
 package com.logesh.expensemanager;
 
+import com.logesh.expensemanager.services.ExpenseServiceImpl;
 import com.logesh.expensemanager.services.UserServiceImpl;
 
 import org.springframework.boot.SpringApplication;
@@ -14,8 +15,13 @@ public class ExpenseManagerApplication {
 	}
 
 	@Bean
-	public UserServiceImpl getService() {
+	public UserServiceImpl userService() {
 		return new UserServiceImpl();
+	}
+
+	@Bean
+	public ExpenseServiceImpl expenseService() {
+		return new ExpenseServiceImpl();
 	}
 
 }

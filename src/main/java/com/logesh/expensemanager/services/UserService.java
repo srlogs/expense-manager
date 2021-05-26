@@ -10,4 +10,6 @@ public interface UserService {
     public User save(User user);
 
     public String authenticate(User user);
+
+    public User findOneUser(String username);
 }

@@ -42,4 +42,13 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Override
+    public User findOneUser(String username) {
+        Optional<User> optional = repository.findByUsername(username);
+        if (optional.isEmpty()) {
+            return null;
+        }
+        return optional.get();
+    }
+
 }
