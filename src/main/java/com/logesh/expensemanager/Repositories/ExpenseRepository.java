@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import com.logesh.expensemanager.Models.UserExpense;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
-
-public interface ExpenseRepository extends MongoRepository<UserExpense, String> {
+public interface ExpenseRepository {
     Optional<UserExpense> findByUserId(String userId);
+
+    UserExpense save(UserExpense userExpense);
 }
