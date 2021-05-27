@@ -1,8 +1,6 @@
 package com.logesh.expensemanager.Models;
 
 import java.time.LocalDate;
-import java.util.Date;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

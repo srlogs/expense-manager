@@ -10,6 +10,7 @@ import com.logesh.expensemanager.Models.UserExpense;
 
 import com.logesh.expensemanager.Repositories.ExpenseRepository;
 import com.logesh.expensemanager.Repositories.UserRepository;
+import com.mongodb.client.result.UpdateResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +22,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Autowired
     UserRepository userRepository;
 
+    private UpdateResult update;
+
     @Override
     public UserExpense save(Expense expense, String username) {
         Optional<User> optional = userRepository.findByUsername(username);
@@ -29,7 +32,8 @@ public class ExpenseServiceImpl implements ExpenseService {
             Optional<UserExpense> expenseOptional = repository.findByUserId(optional.get().getId());
             if (expenseOptional.isPresent()) {
                 expenseOptional.get().getExpense().add(expense);
-                return repository.save(expenseOptional.get());
+                update = repository.update(expense, optional.get().getId());
+                return expenseOptional.get();
             } else {
                 UserExpense userExpense = new UserExpense();
                 List<Expense> expenseList = new ArrayList<>();
