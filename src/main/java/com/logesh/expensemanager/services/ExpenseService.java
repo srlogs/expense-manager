@@ -14,5 +14,5 @@ public interface ExpenseService {
 
     public UserExpense findOneExpense(String username);
 
-    public List<UserExpense> findByMonth(int month, String username);
+    public List<UserExpense> findByMonth(int month, String username, int year);
 }

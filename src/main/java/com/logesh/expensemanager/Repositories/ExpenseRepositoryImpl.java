@@ -48,13 +48,15 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
     }
 
     @Override
-    public List<UserExpense> findByMonth(int month, String userId) {
+    public List<UserExpense> findByMonth(int month, String userId, int year) {
 
         AggregationOperation userIdMatch = Aggregation.match(Criteria.where("userId").is(userId));
         AggregationOperation unwind = Aggregation.unwind("expense");
         AggregationOperation project = Aggregation.project().and("userId").as("userId").and("expense").as("expense")
-                .andExpression("month(expense.createdDate)").as("month");
-        AggregationOperation monthMatch = Aggregation.match(Criteria.where("month").is(month));
+                .andExpression("month(expense.createdDate)").as("month").andExpression("year(expense.createdDate)")
+                .as("year");
+        AggregationOperation monthMatch = Aggregation
+                .match(new Criteria().andOperator(Criteria.where("month").is(month), Criteria.where("year").is(year)));
         AggregationOperation group = Aggregation.group("userId").first("userId").as("userId").push("expense")
                 .as("expense");
         AggregationOperation finalProject = Aggregation.project().and("userId").as("userId").and("expense")

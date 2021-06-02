@@ -50,9 +50,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<UserExpense> findByMonth(int month, String username) {
+    public List<UserExpense> findByMonth(int month, String username, int year) {
         userId = getUserId(username);
-        return repository.findByMonth(month, userId);
+        return repository.findByMonth(month, userId, year);
     }
 
     private String getUserId(String username) {

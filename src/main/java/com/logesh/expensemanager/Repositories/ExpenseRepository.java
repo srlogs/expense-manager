@@ -14,5 +14,5 @@ public interface ExpenseRepository {
 
     UpdateResult update(Expense expense, String userId);
 
-    List<UserExpense> findByMonth(int month, String userId);
+    List<UserExpense> findByMonth(int month, String userId, int year);
 }
