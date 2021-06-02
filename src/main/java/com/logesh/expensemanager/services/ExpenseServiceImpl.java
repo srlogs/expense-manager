@@ -23,34 +23,41 @@ public class ExpenseServiceImpl implements ExpenseService {
     UserRepository userRepository;
 
     private UpdateResult update;
+    private String userId;
 
     @Override
     public UserExpense save(Expense expense, String username) {
-        Optional<User> optional = userRepository.findByUsername(username);
-
+        userId = getUserId(username);
+        Optional<UserExpense> optional = repository.findByUserId(userId);
         if (optional.isPresent()) {
-            Optional<UserExpense> expenseOptional = repository.findByUserId(optional.get().getId());
-            if (expenseOptional.isPresent()) {
-                expenseOptional.get().getExpense().add(expense);
-                update = repository.update(expense, optional.get().getId());
-                return expenseOptional.get();
-            } else {
-                UserExpense userExpense = new UserExpense();
-                List<Expense> expenseList = new ArrayList<>();
-                expenseList.add(expense);
-                userExpense.setUserId(optional.get().getId());
-                userExpense.setExpense(expenseList);
-                return repository.save(userExpense);
-            }
+            optional.get().getExpense().add(expense);
+            update = repository.update(expense, userId);
+            return optional.get();
         }
-        return null;
+        UserExpense userExpense = new UserExpense();
+        List<Expense> expenseList = new ArrayList<>();
+        expenseList.add(expense);
+        userExpense.setUserId(userId);
+        userExpense.setExpense(expenseList);
+        return repository.save(userExpense);
     }
 
     @Override
     public UserExpense findOneExpense(String username) {
+        userId = getUserId(username);
+        Optional<UserExpense> optional = repository.findByUserId(userId);
+        return optional.get();
+    }
+
+    @Override
+    public List<UserExpense> findByMonth(int month, String username) {
+        userId = getUserId(username);
+        return repository.findByMonth(month, userId);
+    }
+
+    private String getUserId(String username) {
         Optional<User> optional = userRepository.findByUsername(username);
-        Optional<UserExpense> eOptional = repository.findByUserId(optional.get().getId());
-        return eOptional.get();
+        return optional.get().getId();
     }
 
 }

@@ -1,5 +1,7 @@
 package com.logesh.expensemanager.controllers;
 
+import java.util.List;
+
 import com.logesh.expensemanager.Models.Expense;
 import com.logesh.expensemanager.Models.UserExpense;
 import com.logesh.expensemanager.services.ExpenseServiceImpl;
@@ -27,5 +29,11 @@ public class ExpenseController {
     @GetMapping("/{username}")
     public UserExpense getExpense(@PathVariable("username") String username) {
         return service.findOneExpense(username);
+    }
+
+    @GetMapping("/{username}/{month}")
+    public List<UserExpense> getExpenseByMonth(@PathVariable("username") String username,
+            @PathVariable("month") int month) {
+        return service.findByMonth(month, username);
     }
 }
