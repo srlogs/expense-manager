@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService {
         if (optional.isEmpty()) {
             return "User not found";
         } else if (validate(user, optional.get())) {
-            return "Authentication successfull";
+            return "authenticated";
         }
-        return "Authentication failed";
+        return "failed";
     }
 
     private boolean validate(User credentials, User userData) {
