@@ -25,14 +25,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String authenticate(User user) {
+    public User authenticate(User user) {
         Optional<User> optional = repository.findByUsername(user.getUsername());
         if (optional.isEmpty()) {
-            return "User not found";
-        } else if (validate(user, optional.get())) {
-            return "authenticated";
+            System.out.println("user not found");
+        } else if (!validate(user, optional.get())) {
+            System.out.println("authentication failed");
         }
-        return "failed";
+        return user;
     }
 
     private boolean validate(User credentials, User userData) {

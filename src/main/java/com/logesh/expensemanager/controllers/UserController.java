@@ -3,10 +3,7 @@ package com.logesh.expensemanager.controllers;
 import com.logesh.expensemanager.Models.User;
 import com.logesh.expensemanager.services.UserServiceImpl;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,8 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody User user) {
-        return new ResponseEntity<>(service.authenticate(user), HttpStatus.OK);
+    public User login(@RequestBody User user) {
+        return service.authenticate(user);
     }
 
     @GetMapping("/{username}")
