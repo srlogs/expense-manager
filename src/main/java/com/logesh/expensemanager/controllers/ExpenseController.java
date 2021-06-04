@@ -34,8 +34,11 @@ public class ExpenseController {
     }
 
     @GetMapping("/{username}/{month}/{year}")
-    public List<UserExpense> getExpenseByMonth(@PathVariable("username") String username,
-            @PathVariable("month") int month, @PathVariable("year") int year) {
-        return service.findByMonth(month, username, year);
+    public UserExpense getExpenseByMonth(@PathVariable("username") String username, @PathVariable("month") int month,
+            @PathVariable("year") int year) {
+        if (service.findByMonth(month, username, year).size() == 0) {
+            return null;
+        }
+        return service.findByMonth(month, username, year).get(0);
     }
 }
