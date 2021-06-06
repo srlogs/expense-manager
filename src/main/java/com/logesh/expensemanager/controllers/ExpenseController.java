@@ -37,7 +37,7 @@ public class ExpenseController {
     public UserExpense getExpenseByMonth(@PathVariable("username") String username, @PathVariable("month") int month,
             @PathVariable("year") int year) {
         if (service.findByMonth(month, username, year).size() == 0) {
-            return null;
+            return new UserExpense();
         }
         return service.findByMonth(month, username, year).get(0);
     }
