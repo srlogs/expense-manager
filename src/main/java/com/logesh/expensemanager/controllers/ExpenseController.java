@@ -3,6 +3,7 @@ package com.logesh.expensemanager.controllers;
 import java.util.List;
 
 import com.logesh.expensemanager.Models.Expense;
+import com.logesh.expensemanager.Models.ExpenseYears;
 import com.logesh.expensemanager.Models.UserExpense;
 import com.logesh.expensemanager.services.ExpenseServiceImpl;
 
@@ -40,5 +41,11 @@ public class ExpenseController {
             return new UserExpense();
         }
         return service.findByMonth(month, username, year).get(0);
+    }
+
+    @GetMapping("/years/{username}/{month}")
+    public List<ExpenseYears> getExpenseYears(@PathVariable("username") String username,
+            @PathVariable("month") int month) {
+        return service.findYears(username, month);
     }
 }

@@ -3,6 +3,7 @@ package com.logesh.expensemanager.services;
 import java.util.List;
 
 import com.logesh.expensemanager.Models.Expense;
+import com.logesh.expensemanager.Models.ExpenseYears;
 import com.logesh.expensemanager.Models.UserExpense;
 
 import org.springframework.stereotype.Service;
@@ -15,4 +16,6 @@ public interface ExpenseService {
     public UserExpense findOneExpense(String username);
 
     public List<UserExpense> findByMonth(int month, String username, int year);
+
+    public List<ExpenseYears> findYears(String username, int month);
 }

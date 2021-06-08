@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.logesh.expensemanager.Models.Expense;
+import com.logesh.expensemanager.Models.ExpenseYears;
 import com.logesh.expensemanager.Models.UserExpense;
 import com.mongodb.client.result.UpdateResult;
 
@@ -15,4 +16,6 @@ public interface ExpenseRepository {
     UpdateResult update(Expense expense, String userId);
 
     List<UserExpense> findByMonth(int month, String userId, int year);
+
+    List<ExpenseYears> findYears(String userId, int month);
 }

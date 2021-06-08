@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.logesh.expensemanager.Models.Expense;
+import com.logesh.expensemanager.Models.ExpenseYears;
 import com.logesh.expensemanager.Models.UserExpense;
 import com.mongodb.client.result.UpdateResult;
 
@@ -72,6 +73,25 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
         Aggregation aggregation = Aggregation.newAggregation(operations);
 
         return mongoTemplate.aggregate(aggregation, UserExpense.class, UserExpense.class).getMappedResults();
+    }
+
+    @Override
+    public List<ExpenseYears> findYears(String userId, int month) {
+        AggregationOperation userIdMatch = Aggregation.match(Criteria.where("userId").is(userId));
+        AggregationOperation unwind = Aggregation.unwind("expense");
+        AggregationOperation project = Aggregation.project().andExpression("year(expense.createdDate)").as("year")
+                .andExpression("month(expense.createdDate)").as("month");
+        AggregationOperation monthMatch = Aggregation.match(Criteria.where("month").is(month));
+        AggregationOperation finalProject = Aggregation.project().and("year").as("year");
+        List<AggregationOperation> operations = new ArrayList<>();
+        operations.add(userIdMatch);
+        operations.add(unwind);
+        operations.add(project);
+        operations.add(monthMatch);
+        operations.add(finalProject);
+
+        Aggregation aggregation = Aggregation.newAggregation(operations);
+        return mongoTemplate.aggregate(aggregation, UserExpense.class, ExpenseYears.class).getMappedResults();
     }
 
 }

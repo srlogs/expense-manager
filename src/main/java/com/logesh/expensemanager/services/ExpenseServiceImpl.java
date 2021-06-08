@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.logesh.expensemanager.Models.Expense;
+import com.logesh.expensemanager.Models.ExpenseYears;
 import com.logesh.expensemanager.Models.User;
 import com.logesh.expensemanager.Models.UserExpense;
 
@@ -58,6 +59,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     private String getUserId(String username) {
         Optional<User> optional = userRepository.findByUsername(username);
         return optional.get().getId();
+    }
+
+    @Override
+    public List<ExpenseYears> findYears(String username, int month) {
+        userId = getUserId(username);
+        return repository.findYears(userId, month);
     }
 
 }
