@@ -1,6 +1,9 @@
 package com.logesh.expensemanager.services;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +68,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     public List<ExpenseYears> findYears(String username, int month) {
         userId = getUserId(username);
         return repository.findYears(userId, month);
+    }
+
+    @Override
+    public void delete(String username, Date createdDate) {
+        userId = getUserId(username);
+        repository.delete(userId, createdDate);
     }
 
 }

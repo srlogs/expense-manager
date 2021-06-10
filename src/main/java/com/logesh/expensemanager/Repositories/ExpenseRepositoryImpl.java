@@ -1,12 +1,14 @@
 package com.logesh.expensemanager.Repositories;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import com.logesh.expensemanager.Models.Expense;
 import com.logesh.expensemanager.Models.ExpenseYears;
 import com.logesh.expensemanager.Models.UserExpense;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +94,14 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
 
         Aggregation aggregation = Aggregation.newAggregation(operations);
         return mongoTemplate.aggregate(aggregation, UserExpense.class, ExpenseYears.class).getMappedResults();
+    }
+
+    @Override
+    public void delete(String userId, Date createdDate) {
+        Query query = new Query().addCriteria(Criteria.where("userId").is(userId));
+        Update update = new Update().pull("expense",
+                new Query().addCriteria(Criteria.where("createdDate").is(createdDate)));
+        System.out.println(mongoTemplate.updateMulti(query, update, UserExpense.class));
     }
 
 }

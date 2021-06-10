@@ -1,5 +1,6 @@
 package com.logesh.expensemanager.Repositories;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,6 @@ public interface ExpenseRepository {
     List<UserExpense> findByMonth(int month, String userId, int year);
 
     List<ExpenseYears> findYears(String userId, int month);
+
+    void delete(String userId, Date createdDate);
 }

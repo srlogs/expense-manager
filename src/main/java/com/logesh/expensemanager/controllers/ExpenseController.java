@@ -1,5 +1,6 @@
 package com.logesh.expensemanager.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import com.logesh.expensemanager.Models.Expense;
@@ -8,7 +9,10 @@ import com.logesh.expensemanager.Models.UserExpense;
 import com.logesh.expensemanager.services.ExpenseServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,5 +51,11 @@ public class ExpenseController {
     public List<ExpenseYears> getExpenseYears(@PathVariable("username") String username,
             @PathVariable("month") int month) {
         return service.findYears(username, month);
+    }
+
+    @DeleteMapping("/{username}/{createdDate}")
+    public void deleteExpense(@PathVariable("username") String username,
+            @PathVariable("createdDate") @DateTimeFormat(iso = ISO.DATE_TIME) Date createdDate) throws Exception {
+        service.delete(username, createdDate);
     }
 }
