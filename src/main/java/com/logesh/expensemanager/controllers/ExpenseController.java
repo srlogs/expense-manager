@@ -55,7 +55,12 @@ public class ExpenseController {
 
     @DeleteMapping("/{username}/{createdDate}")
     public void deleteExpense(@PathVariable("username") String username,
-            @PathVariable("createdDate") @DateTimeFormat(iso = ISO.DATE_TIME) Date createdDate) throws Exception {
+            @PathVariable("createdDate") @DateTimeFormat(iso = ISO.DATE_TIME) Date createdDate) {
         service.delete(username, createdDate);
+    }
+
+    @PostMapping("/update/{username}")
+    public String updateExpense(@PathVariable("username") String username, @RequestBody Expense expense) {
+        return service.updateExpense(username, expense);
     }
 }

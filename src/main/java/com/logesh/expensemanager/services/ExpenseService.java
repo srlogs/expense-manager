@@ -21,4 +21,6 @@ public interface ExpenseService {
     public List<ExpenseYears> findYears(String username, int month);
 
     public void delete(String username, Date createdDate);
+
+    public String updateExpense(String username, Expense expense);
 }

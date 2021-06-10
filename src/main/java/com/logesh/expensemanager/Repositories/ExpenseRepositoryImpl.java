@@ -8,7 +8,6 @@ import java.util.Optional;
 import com.logesh.expensemanager.Models.Expense;
 import com.logesh.expensemanager.Models.ExpenseYears;
 import com.logesh.expensemanager.Models.UserExpense;
-import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -107,6 +106,12 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
         Update update = new Update().pull("expense",
                 new Query().addCriteria(Criteria.where("createdDate").is(createdDate)));
         System.out.println(mongoTemplate.updateMulti(query, update, UserExpense.class));
+    }
+
+    @Override
+    public UpdateResult updateExpense(Expense expense, String userId) {
+        delete(userId, expense.getCreatedDate());
+        return update(expense, userId);
     }
 
 }

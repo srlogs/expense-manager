@@ -73,4 +73,11 @@ public class ExpenseServiceImpl implements ExpenseService {
         repository.delete(userId, createdDate);
     }
 
+    @Override
+    public String updateExpense(String username, Expense expense) {
+        update = repository.updateExpense(expense, getUserId(username));
+        System.out.println(update);
+        return null;
+    }
+
 }

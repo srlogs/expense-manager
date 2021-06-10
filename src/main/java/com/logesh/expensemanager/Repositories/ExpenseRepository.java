@@ -21,4 +21,6 @@ public interface ExpenseRepository {
     List<ExpenseYears> findYears(String userId, int month);
 
     void delete(String userId, Date createdDate);
+
+    UpdateResult updateExpense(Expense expense, String userId);
 }
