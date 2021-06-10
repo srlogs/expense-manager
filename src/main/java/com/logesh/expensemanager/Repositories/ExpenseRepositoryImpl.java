@@ -12,6 +12,7 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
@@ -85,12 +86,16 @@ public class ExpenseRepositoryImpl implements ExpenseRepository {
                 .andExpression("month(expense.createdDate)").as("month");
         AggregationOperation monthMatch = Aggregation.match(Criteria.where("month").is(month));
         AggregationOperation finalProject = Aggregation.project().and("year").as("year");
+        AggregationOperation sort = Aggregation.sort(Sort.Direction.ASC, "year");
+        AggregationOperation group = Aggregation.group("year").first("year").as("year");
         List<AggregationOperation> operations = new ArrayList<>();
         operations.add(userIdMatch);
         operations.add(unwind);
         operations.add(project);
         operations.add(monthMatch);
         operations.add(finalProject);
+        operations.add(sort);
+        operations.add(group);
 
         Aggregation aggregation = Aggregation.newAggregation(operations);
         return mongoTemplate.aggregate(aggregation, UserExpense.class, ExpenseYears.class).getMappedResults();
